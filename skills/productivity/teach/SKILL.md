@@ -7,6 +7,17 @@ argument-hint: "What would you like to learn about?"
 
 The user has asked you to teach them something. This is a stateful request - they intend to learn the topic over multiple sessions.
 
+## Agent routing
+
+Teaching is a planning-heavy workflow. When this skill is dispatched to a
+separate Codex agent, run it through `scripts/run-agent.sh planning`. That
+runner pins the planning agent to `gpt-5.6-luna` with high reasoning effort;
+do not use the implementation profile for teaching.
+
+If the current session cannot launch a separate Codex agent, keep the same
+role boundary in the prompt and report that the workflow is running inline
+instead of claiming that a different model was used.
+
 ## Teaching Workspace
 
 Treat the current directory as a teaching workspace. The state of their learning is captured in this directory in several files:
