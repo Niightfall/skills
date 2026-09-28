@@ -3,6 +3,27 @@ name: grilling
 description: Grill the user relentlessly about a plan, decision, or idea. Use when the user wants to stress-test their thinking, or uses any 'grill' trigger phrases.
 ---
 
+## Interactive relay
+
+This is an interactive workflow. Keep the grilling conversation alive across
+rounds: ask one frontier round, wait for the user's answers, then recompute
+the frontier and continue. Do not complete the exercise from the initial
+prompt alone.
+
+When a controller delegates this skill to the planning agent, use
+`scripts/run-agent.sh start` for the first round. The script returns a
+`GRILLING_SESSION_ID` and the agent's question round. Show that round in the
+chat. After the user answers, call `scripts/run-agent.sh resume <session-id>`
+with the answer as the prompt and show the returned round. Repeat until the
+agent reports that the frontier is empty and the user confirms the shared
+understanding.
+
+The session ID is state, not user content: preserve it between turns and
+resume the same session rather than starting a new grilling agent. Treat the
+agent's response as the chat response; do not paraphrase its questions or
+answer them for the user. If delegation is unavailable, run the same protocol
+inline in the current conversation and say that it is inline.
+
 Interview the user relentlessly until you reach a shared understanding. Map this as a **design tree**: every decision branches into the decisions that hang off it.
 
 Work the tree in **rounds**. The **frontier** is every decision whose prerequisites are already settled: the questions you can ask _now_ without guessing at answers you haven't heard yet. Ask the whole frontier in one round: number each question and give your recommended answer. Then wait for the user's answers before the next round.
