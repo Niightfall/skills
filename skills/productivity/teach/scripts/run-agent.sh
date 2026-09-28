@@ -19,6 +19,8 @@ case "$role" in
     ;;
 esac
 
+export CODEX_AGENT_ROLE="$role"
+
 exec codex exec \
   --model "$model" \
   -c "model_reasoning_effort=$reasoning" \

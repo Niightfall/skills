@@ -9,14 +9,16 @@ The user has asked you to teach them something. This is a stateful request - the
 
 ## Agent routing
 
-Teaching is a planning-heavy workflow. When this skill is dispatched to a
-separate Codex agent, run it through `scripts/run-agent.sh planning`. That
-runner pins the planning agent to `gpt-5.6-luna` with high reasoning effort;
-do not use the implementation profile for teaching.
+Teaching is a planning-heavy workflow. Use this skill through
+`scripts/run-agent.sh planning`; that runner pins the planning agent to
+`gpt-5.6-luna` with high reasoning effort. A controller invoking this skill
+must launch that runner before doing substantive teaching work.
 
-If the current session cannot launch a separate Codex agent, keep the same
-role boundary in the prompt and report that the workflow is running inline
-instead of claiming that a different model was used.
+When `CODEX_AGENT_ROLE=planning` is already set, the request is running in the
+correct agent and should proceed normally; do not launch the runner again.
+If the runner is unavailable, keep the same role boundary in the prompt and
+report that the workflow is running inline instead of claiming that a
+different model was used.
 
 ## Teaching Workspace
 
